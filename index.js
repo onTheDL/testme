@@ -5,9 +5,9 @@ const runner = new Runner()
 
 const run = async () => {
   // process.cwd() => retrieves the current working directory
-  const results = await runner.collectFiles(process.cwd())
-  
-  console.log(results);
+  await runner.collectFiles(process.cwd())
+  runner.runTests()
+
 }
 
 run()
