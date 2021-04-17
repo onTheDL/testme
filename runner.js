@@ -1,8 +1,9 @@
 const fs = require("fs");
 const path = require("path");
-const chalk = require("chalk")
+const chalk = require("chalk");
+const render = require("./render");
 
-const forbiddenDirs = ['node_modules']
+const forbiddenDirs = ["node_modules"];
 
 class Runner {
   constructor() {
@@ -11,28 +12,30 @@ class Runner {
 
   async runTests() {
     for (let file of this.testFiles) {
-
       console.log(chalk.gray(`---- ${file.shortName}`));
 
-      const beforeEaches = []
+      const beforeEaches = [];
+
+      global.render = render
+
       global.beforeEach = (fn) => {
-        beforeEaches.push(fn)
-      }
+        beforeEaches.push(fn);
+      };
       global.it = (desc, fn) => {
-        beforeEaches.forEach(func => func())
+        beforeEaches.forEach((func) => func());
         try {
-          fn()
+          fn();
           console.log(chalk.green(`\tOK - ${desc}`));
-        } catch(err) {
-          const message = err.message.replace(/\n/g, '\n\t\t')
+        } catch (err) {
+          const message = err.message.replace(/\n/g, "\n\t\t");
           console.log(chalk.red(`\tX - ${desc}`));
           // \t = terminal interprets as tab character
-          console.log(chalk.red('\t', message));
+          console.log(chalk.red("\t", message));
         }
-      }
+      };
       try {
-        require(file.name)
-      } catch(err) {
+        require(file.name);
+      } catch (err) {
         console.log(chalk.red(`X - Error Loading File`, file.name));
         console.log(chalk.red(err));
       }
@@ -58,8 +61,7 @@ class Runner {
 
         // Add parent absolute pathway to each child file
         // see Lec 465 @ 8:13
-        files.push(...childFiles.map(f => path.join(file, f)))
-
+        files.push(...childFiles.map((f) => path.join(file, f)));
       }
     }
   }
