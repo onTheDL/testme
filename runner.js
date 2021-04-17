@@ -20,11 +20,12 @@ class Runner {
         beforeEaches.forEach(func => func())
         try {
           fn()
-          console.log(chalk.green(`OK - ${desc}`));
+          console.log(chalk.green(`\tOK - ${desc}`));
         } catch(err) {
-          console.log(chalk.red(`X - ${desc}`));
+          const message = err.message.replace(/\n/g, '\n\t\t')
+          console.log(chalk.red(`\tX - ${desc}`));
           // \t = terminal interprets as tab character
-          console.log(chalk.red('\t', err.message));
+          console.log(chalk.red('\t', message));
         }
       }
       try {
