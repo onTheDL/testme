@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- see L481 -->
+    <!-- <script>
 
+      // DOMContentLoaded waits for all the scripts to load, and then calls the cb fxn 
+      document.addEventListener('DOMContentLoaded', () => {
+        console.log(window.stuffLoaded);
+      })
+    </script> -->
   </head>
   <body>
     <form>
@@ -10,7 +17,6 @@
       <button>Submit</button>
     </form>
     <h1></h1>
-
     <script src="index.js"></script>
   </body>
 </html>
